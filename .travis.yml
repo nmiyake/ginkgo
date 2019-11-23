@@ -14,4 +14,8 @@ install:
   - go install github.com/onsi/ginkgo/ginkgo
   - export PATH=$PATH:$HOME/gopath/bin
 
-script: $HOME/gopath/bin/ginkgo -r --randomizeAllSpecs --randomizeSuites --race --trace && go vet
+script:
+  - go mod tidy
+  - diff -u <(echo -n) <(git diff go.mod)
+  - diff -u <(echo -n) <(git diff go.sum)
+  - $HOME/gopath/bin/ginkgo -r --randomizeAllSpecs --randomizeSuites --race --trace && go vet
